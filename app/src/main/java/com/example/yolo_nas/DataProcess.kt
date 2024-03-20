@@ -3,7 +3,9 @@ package com.example.yolo_nas
 import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.Matrix
 import android.graphics.RectF
+import android.util.Log
 import androidx.camera.core.ImageProxy
 import java.io.BufferedReader
 import java.io.File
@@ -59,7 +61,10 @@ class DataProcess {
     // imageProxy -> bitmap
     fun imgToBmp(imageProxy: ImageProxy): Bitmap {
         val bitmap = imageProxy.toBitmap()
-        return Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, true)
+        val bitmap640 = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, true)
+        val matrix = Matrix()
+        matrix.postRotate(90f)
+        return Bitmap.createBitmap(bitmap640, 0, 0, INPUT_SIZE, INPUT_SIZE, matrix, true)
     }
 
     // bitmap -> floatBuffer
