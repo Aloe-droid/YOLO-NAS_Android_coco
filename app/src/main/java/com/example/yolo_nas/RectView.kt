@@ -26,17 +26,17 @@ class RectView(context: Context, attributeSet: AttributeSet) : View(context, att
     // 화면의 크기에 맞게 바운딩 박스 크기 변환
     fun transformRect(results: ArrayList<Result>) {
         // scale 구하기
-        val scaleY = height / DataProcess.INPUT_SIZE.toFloat()
-        val scaleX = scaleY * 9f / 16f
-        val realX = height * 9f / 16f
-        val diffX = realX - width
-        results.forEach {
-            it.rectF.left = 0f.coerceAtLeast(it.rectF.left * scaleX - (diffX / 2f))
-            it.rectF.right = width.toFloat().coerceAtMost(it.rectF.right * scaleX - (diffX / 2f))
-            it.rectF.top = 0f.coerceAtLeast(it.rectF.top * scaleY)
-            it.rectF.bottom = height.toFloat().coerceAtMost(it.rectF.bottom * scaleY)
-        }
+        val scaleX = width / DataProcess.INPUT_SIZE.toFloat()
+        val scaleY = scaleX * 9f / 16f
+        val realY = width * 9f / 16f
+        val diffY = realY - height
 
+        results.forEach {
+            it.rectF.left *= scaleX
+            it.rectF.right *= scaleX
+            it.rectF.top = it.rectF.top * scaleY - (diffY / 2f)
+            it.rectF.bottom = it.rectF.bottom * scaleY - (diffY / 2f)
+        }
         this.results = results
     }
 
